@@ -1,0 +1,16 @@
+{% load staticfiles %}
+{% extends 'home.html' %}
+
+{% block shop %}
+  <ul>
+  {% for category in categories %}
+    <li><a href="{% url 'product_list_category' shop_category_slug=category.slug %}">{{ category.name}}</a></li>
+  {% endfor %}
+</ul>
+  {% for product in products %}
+    <p><a href="{% url 'product_detail' product_slug=product.slug %}">{{ product.name}}</a></p>
+    <p>{{ product.description }}</p>
+    <p>{{ product.stock }}</p>
+    <p>{{ product.price }}</p>
+  {% endfor %}
+{% endblock %}

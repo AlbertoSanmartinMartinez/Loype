@@ -1,0 +1,5 @@
+"""
+pipreqs /Users/albertosanmartinmartinez/Desktop/empresas/1_Preconcebido/Clientes/Loype/venv_web_loype/Loype/Loype/ --force
+
+"""
+Django==1.11

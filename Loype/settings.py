@@ -29,7 +29,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop',
+    'payments',
     # 'pillow'
 ]
 
@@ -56,7 +56,11 @@ ROOT_URLCONF = 'Loype.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, "templates"),
+            BASE_DIR + '/templates/shop/',
+            BASE_DIR + '/templates/registration/',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,14 +123,27 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+# STATIC SETTING
 STATIC_URL = '/static/'
 STATICFILES_DIR = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
 
+# MEDIA SETTINGS
 MEDIA_URL = '/media/'
 MEDIAFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
+
+# PAYMENT SETTINGS
+PAYMENT_HOST = 'localhost:8000'
+PAYMENT_USES_SSL = False
+PAYMENT_MODEL = 'shop.CustomPayment'
+PAYMENT_VARIANTS = {
+    'default': ('payments.dummy.DummyProvider', {
+        # 'capture': False,
+    }),
+    # more payments providers
+}

@@ -1,16 +1,20 @@
-{% load staticfiles %}
 {% extends 'home.html' %}
+{% load staticfiles %}
 
 {% block shop %}
+
+  <p>Categorías</p>
   <ul>
   {% for category in categories %}
-    <li><a href="{% url 'product_list_category' shop_category_slug=category.slug %}">{{ category.name}}</a></li>
+    <li><a href="{% url 'shop:product_list_category' shop_category_slug=category.slug %}">{{ category.name}}</a></li>
   {% endfor %}
-</ul>
+  </ul>
+  <p>Productos</p>
   {% for product in products %}
-    <p><a href="{% url 'product_detail' product_slug=product.slug %}">{{ product.name}}</a></p>
+    <p><a href="{% url 'shop:product_detail' product_slug=product.slug %}">{{ product.name}}</a></p>
     <p>{{ product.description }}</p>
     <p>{{ product.stock }}</p>
     <p>{{ product.price }}</p>
   {% endfor %}
+
 {% endblock %}

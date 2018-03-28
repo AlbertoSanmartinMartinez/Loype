@@ -1,0 +1,9 @@
+{% extends 'home.html' %}
+{% load staticfiles %}
+
+{% block payment %}
+  <form action="{{ from.action }}" method="{{ form.method }}">
+    {{ form.as_p }}
+    <p><input type="submit" value="Proceed"/>PAGAR</p>
+  </form>
+{% endblock %}

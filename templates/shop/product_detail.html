@@ -1,0 +1,9 @@
+{% extends 'home.html' %}
+{% load staticfiles %}
+
+{% block product %}
+<p>{{ product.name}}</p>
+<p>{{ product.description }}</p>
+<p>{{ product.stock }}</p>
+<p>{{ product.price }}</p>
+{% endblock %}

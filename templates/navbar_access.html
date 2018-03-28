@@ -1,0 +1,19 @@
+
+{% if user.is_authenticated %}
+  <li>
+    <a href="{% url 'profile' %}">{{ user.username }}</a>
+  </li>
+    <ul>
+      <li>
+        <a href="{% url 'ships' %}">Pedidos</a>
+      </li>
+      <li>
+        <a href="{% url 'logout' %}">Desconectar</a>
+      </li>
+{% else %}
+  <li>
+    <a href="{% url 'custom_login' %}">Acceder</a>
+  </li>
+{% endif %}
+</ul>
+</ul>

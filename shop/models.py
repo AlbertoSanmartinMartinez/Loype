@@ -3,6 +3,8 @@
 from __future__ import unicode_literals
 from django.db import models
 from shop.decorators import autoconnect
+from payments import PurchasedItem
+from payments.models import BasePayment
 
 # General Models
 class CustomUser():
@@ -21,10 +23,10 @@ class BannkInformation(models.Model):
 @autoconnect
 class ShopCategory(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
     description = models.CharField(max_length=500, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
-    parent = models.ForeignKey('self', related_name='children', blank=True)
+    parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
 
     class Meta:
         verbose_name = 'category'
@@ -41,7 +43,7 @@ class ShopCategory(models.Model):
 class Product(models.Model):
     category = models.ForeignKey(ShopCategory)
     name = models.CharField(max_length=100, db_index=True, unique=True)
-    slug = models.SlugField(max_length=100, db_index=True, unique=True)
+    slug = models.SlugField(max_length=100, db_index=True, unique=True, blank=True)
     description = models.CharField(max_length=500, blank=True)
     updated_date = models.DateTimeField(auto_now_add=True)
     created_date = models.DateTimeField(auto_now=True)
@@ -84,10 +86,6 @@ class ShopTag(models.Model):
         return self.name
 
 
-class Payment(models.Model):
-    pass
-
-
 # Gallery Models
 class Image(models.Model):
     pass
@@ -96,3 +94,16 @@ class Image(models.Model):
 # SEO Models
 class MetaData(models.Model):
     pass
+
+
+# Payment Models
+class CustomPayment(BasePayment):
+
+    def get_failure_url(self):
+        pass
+
+    def get_success_url(self):
+        pass
+
+    def get_purchased_url(self):
+        pass

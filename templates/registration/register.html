@@ -3,7 +3,7 @@
 
 {% block title %} Registro {% endblock %}
 
-{% block registration %}
+{% block register %}
 
   <form method="POST">
     {% csrf_token %}
@@ -11,7 +11,7 @@
     <button type="submit">Registrarse</button>
   </form>
 
-<p><a href="{% url 'custom_login' %}">Accede si ya estas registrado.</a></p>
+<p><a href="{% url 'login' %}">Accede si ya estas registrado.</a></p>
 
 {% endblock %}
 

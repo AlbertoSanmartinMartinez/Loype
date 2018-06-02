@@ -107,3 +107,10 @@ class CustomPayment(BasePayment):
 
     def get_purchased_url(self):
         pass
+
+
+"""
+https://www.youtube.com/watch?v=Z5dBopZWOzo
+https://django-payments.readthedocs.io/en/latest/index.html
+
+"""

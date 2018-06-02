@@ -6,32 +6,7 @@ from django.template.response import TemplateResponse
 from shop import models
 from shop import forms
 from payments import get_payment_model, RedirectNeeded
-
-# General Views
-def home(request):
-    return render(request, 'home.html', {})
-
-
-def know_us(request):
-    return render(request, 'know_us.html', {})
-
-
-def contact(request):
-    form = forms.ContactForm(request.POST or None)
-    if form.is_valid():
-        email_form = form.cleaned_data.get("email")
-        message_form = form.cleaned_data.get("mensaje")
-        name_form = form.cleaned_data.get("nombre")
-        asunto = 'Mensaje de contacto'
-        email_to = email
-        email_from = settings.EMAIL_HOST_USER
-        email_message = "%s: %a enviado por %s" %(name_form, message_form, email_form)
-        send_mail(asunto, email_from, email_to, email_message, fail_silently=True)
-    context = {
-        "contact_form": form,
-    }
-    return render(request, "contact.html", context)
-
+from Loype import settings
 
 # Shop Views
 def product_list(request, shop_category_slug=None):
@@ -40,7 +15,7 @@ def product_list(request, shop_category_slug=None):
     if shop_category_slug:
         category = get_object_or_404(models.ShopCategory, slug=shop_category_slug)
         products = products.filter(category=category)
-    print(products)
+
     return render(request, 'product_list.html', {
         'category': category,
         'products': products,
@@ -61,6 +36,24 @@ def shoping_chart(request):
     pass
 
 
+def shop_search(request):
+    form = forms.SearchForm(request.POST)
+    if form.is_valid():
+        word = form.cleaned_data['word']
+        #posts = models.Post.objects.filter(status=1, title__contains=word).order_by("-creation_date")
+        products = models.Product.objects.filter(stock__gt=1)
+    else:
+        form = getSearchForm
+        products = None
+
+    category = None
+
+    return render(request, 'product_list.html', {
+        'category': category,
+        'products': products,
+        'categories': getShopCategories()
+    })
+
 # Payment Views
 def payment_details(request, payment_id):
     payment = get_object_or_404(get_payment_model(), id=payment_id)
@@ -72,6 +65,25 @@ def payment_details(request, payment_id):
     return TemplateResponse(request, 'payment.html', {
         'form': form,
         'payment': payment
+    })
+
+
+def payment_checkout(request):
+    stripe_key = settings.STRIPE_TEST_API_KEY
+    payment_checkout_form = forms.PaymentCheckput()
+
+    """
+    token = stripe.
+    charge = stripe.Charge.create(
+        amount=999,
+        currency='usd',
+        description='Example charge',
+        source=token,
+    )
+    """
+    return render(request, 'payment_checkout.html', {
+        "payment_checkout_form": payment_checkout_form,
+        "stripe_key": stripe_key,
     })
 
 

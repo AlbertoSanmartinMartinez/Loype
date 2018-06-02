@@ -147,3 +147,6 @@ PAYMENT_VARIANTS = {
     }),
     # more payments providers
 }
+
+# STRIPE PAYMENT
+STRIPE_TEST_API_KEY = "pk_test_LHqo7Cgs67JNGp9AARrWGAwp"

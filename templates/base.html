@@ -1,0 +1,41 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Loype</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/design.css' %}"/>
+  </head>
+  <body>
+    {% include 'navbar_menu.html' %}
+    {% include 'navbar_access.html' %}
+
+    {% block home %}
+    {% endblock %}
+
+    {% block know_us %}
+    {% endblock %}
+
+    {% block shop %}
+    {% endblock %}
+
+    {% block payment_checkout %}
+    {% endblock %}
+
+    {% block login %}
+    {% endblock %}
+
+    {% block register %}
+    {% endblock %}
+
+    {% block contact %}
+    {% endblock %}
+
+    {% block legal_information %}
+    {% endblock %}
+
+    {% include 'footer.html' %}
+  </body>
+</html>

@@ -1,20 +1,27 @@
-{% extends 'home.html' %}
+{% extends 'shop.html' %}
 {% load staticfiles %}
 
-{% block shop %}
+{% block product_list %}
+
+  {% include 'shop_filter.html' %}
 
   <p>Categorías</p>
   <ul>
-  {% for category in categories %}
-    <li><a href="{% url 'shop:product_list_category' shop_category_slug=category.slug %}">{{ category.name}}</a></li>
-  {% endfor %}
+    {% for category in categories %}
+      <li><a href="{% url 'shop:product_list_category' shop_category_slug=category.slug %}">{{ category.name}}</a></li>
+    {% endfor %}
   </ul>
+  <hr>
   <p>Productos</p>
   {% for product in products %}
+
     <p><a href="{% url 'shop:product_detail' product_slug=product.slug %}">{{ product.name}}</a></p>
     <p>{{ product.description }}</p>
     <p>{{ product.stock }}</p>
     <p>{{ product.price }}</p>
+    <hr>
+    <a href="{% url 'shop:shoppingcart_add' product_id=product.id %}">Añadir al carrito</a>
+    <hr>
   {% endfor %}
 
 {% endblock %}

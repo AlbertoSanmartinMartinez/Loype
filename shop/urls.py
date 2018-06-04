@@ -8,20 +8,25 @@ from django.conf import settings
 
 urlpatterns = [
 
-    #General Shop Urls
-    url(r'^tienda/$', shop_views.product_list, name='product_list'),
+    # Products Shop Urls
+    url(r'^productos/$', shop_views.product_list, name='product_list'),
+    url(r'^productos/(?P<product_slug>\w+)/$', shop_views.product_detail, name='product_detail'),
 
     # Category Urls
     url(r'^categorias/(?P<shop_category_slug>\w+)/$', shop_views.product_list, name='product_list_category'),
 
-    # Product Urls
-    url(r'^productos/(?P<product_slug>\w+)/$', shop_views.product_detail, name='product_detail'),
-
     #Search Urls
-    url(r'^tienda/$', shop_views.shop_search, name='shop_search'),
+    #url(r'^productos/resultado_busqueda$', shop_views.shop_search, name='shop_search'),
+    url(r'^productos/$', shop_views.product_list, name='shop_search'),
 
     # Payments Urls
     url(r'^pago/$', shop_views.payment_checkout, name='payment_checkout'),
+
+    # ShopingChart Urls
+    url(r'^carrito/$', shop_views.cartDetail, name='shoppingcart_detail'),
+    url(r'^carrito/añadir/(?P<product_id>\d+)/$', shop_views.cartAdd, name='shoppingcart_add'),
+    url(r'^carrito/borrar/(?P<product_id>\d+)/$', shop_views.cartRemove, name='shoppingcart_remove'),
+    url(r'^carrito/actualizar/(?P<product_id>\d+)/$', shop_views.cartUpdate, name='shoppingcart_update'),
 ]
 
 if settings.DEBUG:

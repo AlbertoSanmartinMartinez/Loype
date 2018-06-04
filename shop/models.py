@@ -49,6 +49,7 @@ class Product(models.Model):
     created_date = models.DateTimeField(auto_now=True)
     stock = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
+    # images
 
     class Meta:
         verbose_name = 'product'
@@ -66,6 +67,9 @@ class Product(models.Model):
 
 class ShopingChart(models.Model):
     name = models.CharField(max_length=100, db_index=True)
+    # crear el carrito cuando se añade un producto
+    # controlar el estado del carrito
+    # convertir en pedido cuando se finaliza el pedido
 
     def __unicode__(self):
         return self.name

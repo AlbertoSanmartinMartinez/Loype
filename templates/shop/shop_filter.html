@@ -1,0 +1,15 @@
+{% load staticfiles %}
+
+{% block shop_filter %}
+
+<p>Filtro de la tienda</p>
+
+<form action="{% url 'shop:shop_search' %}" method="POST">
+  {% csrf_token %}
+  {{ shop_filter_form.as_p }}
+  <button type="submit">Filtrar</button>
+</form>
+
+<hr>
+
+{% endblock %}

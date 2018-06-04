@@ -1,11 +1,21 @@
-{% extends 'home.html' %}
+{% extends 'shop.html' %}
 {% load staticfiles %}
 
-{% block product %}
+{% block product_detail %}
+
+{% include 'shop_filter.html' %}
+
+<p>Detalle de un producto de la tienda</p>
 
 <p>{{ product.name}}</p>
 <p>{{ product.description }}</p>
 <p>{{ product.stock }}</p>
 <p>{{ product.price }}</p>
+
+<form action="{% url 'shop:shoppingcart_add' product_id=product.id %}" method="POST">
+  {% csrf_token %}
+  {{ shoppingcart_form.as_p }}
+  <input type="submit" value="Añadir al carrito.">
+</form>
 
 {% endblock %}

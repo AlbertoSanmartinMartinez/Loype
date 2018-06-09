@@ -3,6 +3,7 @@
 from decimal import Decimal
 from django.conf import settings
 from shop import models as shop_models
+from django.shortcuts import render, get_object_or_404
 
 class ShoppingCart(object):
 
@@ -19,12 +20,15 @@ class ShoppingCart(object):
         product_id = str(product.id)
         if product.id not in self.cart:
             self.cart[product_id] = {'quantity': 1, 'price': str(product.price)}
+        #if not shop_models.ShopingChart.objects.filter(code=str(self.session.session_key)):
+        shoppingcart = shop_models.ShopingChart.objects.create(code=str(self.session.session_key))
         """
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
             self.cart[product_id]['quantity'] += quantity
         """
+        # crear el carrito en la base de datos
         self.save()
 
 
@@ -35,15 +39,15 @@ class ShoppingCart(object):
 
     def remove(self, product):
         product_id = str(product.id)
-        #if product.id in self.cart:
         del self.cart[product_id]
+        shop_models.ShopingChart.objects.filter(code=str(self.session.session_key)).update(products=self.cart)
         self.save()
 
     def update(self, product, quantity):
         product_id = str(product.id)
-        #shopingchart_form = shop_forms.ShoppingCartForm(request.POST)
-        #if product.id in self.cart:
-        self.cart[product_id] = {'quantity': 6, 'price': str(product.price)}
+        self.cart[product_id] = {'quantity': quantity, 'price': str(product.price)}
+        shop_models.ShopingChart.objects.filter(code=str(self.session.session_key)).update(products=self.cart)
+        self.save()
 
 
     def __iter__(self):
@@ -66,5 +70,13 @@ class ShoppingCart(object):
 
 
     def clear(self):
+        shoppingcart = get_object_or_404(shop_models.ShopingChart, code=str(self.session.session_key))
+        shop_models.Order.objects.create(
+            code=shoppingcart.code)
+        shoppingcart.delete()
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True
+
+
+    def updateShoppingCart(self):
+        pass

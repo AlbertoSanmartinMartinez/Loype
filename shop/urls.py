@@ -20,6 +20,8 @@ urlpatterns = [
     url(r'^productos/$', shop_views.product_list, name='shop_search'),
 
     # Payments Urls
+    url(r'^pago/realizado$', shop_views.payment_done, name='payment_done'),
+    url(r'^pago/cancelado$', shop_views.payment_canceled, name='payment_canceled'),
     url(r'^pago/$', shop_views.payment_checkout, name='payment_checkout'),
 
     # ShopingChart Urls

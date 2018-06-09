@@ -24,18 +24,26 @@ class ShopCategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(models.ShopCategory, ShopCategoryAdmin)
 
-"""
+
 class ShopingChartAdmin(admin.ModelAdmin):
+    list_display = ['code', 'created_date', 'products']
 
 admin.site.register(models.ShopingChart, ShopingChartAdmin)
 
 
 class ProviderAdmin(admin.ModelAdmin):
+    list_display = ['name', 'created_date']
 
 admin.site.register(models.Provider, ProviderAdmin)
 
 
 class ShopTagAdmin(admin.ModelAdmin):
+    list_display = ['name', 'created_date']
 
 admin.site.register(models.ShopTag, ShopTagAdmin)
-"""
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['code', 'created_date', 'status']
+
+admin.site.register(models.Order, OrderAdmin)
+#

@@ -20,7 +20,12 @@
     <p>{{ product.stock }}</p>
     <p>{{ product.price }}</p>
     <hr>
-    <a href="{% url 'shop:shoppingcart_add' product_id=product.id %}">Añadir al carrito</a>
+
+    <form action="{% url 'shop:shoppingcart_add' product_id=product.id %}" method="POST">
+      {% csrf_token %}
+      {{ shoppingcart_form.as_p }}
+      <input type="submit" value="Añadir al carrito.">
+    </form>
     <hr>
   {% endfor %}
 

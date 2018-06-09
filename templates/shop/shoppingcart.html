@@ -3,25 +3,25 @@
 
 {% block shopingchart %}
 
-  {% if shoppingcart > 0 %}
+  {% if shoppingcart|length > 0 %}
     {% for item in shoppingcart %}
       <p><a href="{% url 'shop:product_detail' product_slug=item.product.slug %}">{{ item.product.name}}</a></p>
-      <p>{{ item.shoppingcart_form.price }}</p>
-      <p>{{ item.shoppingcart_form.quantity }}</p>
+      {{ item.shoppingcart_form.price }}
       <form action="{% url 'shop:shoppingcart_update' product_id=item.product.id %}" method="POST">
         {% csrf_token %}
-        {{ item.shoppingcart_form.quantity }}
+        {{ item.shoppingcart_form.as_p }}
         <input type="submit" value="Actualizar.">
       </form>
       <p><a href="{% url 'shop:shoppingcart_remove' product_id=item.product.id %}">Borrar</a></p>
       <hr>
     {% endfor %}
     {{ shoppingcart.getTotalPrice }}
+
+    <p><a href="{% url 'shop:product_list' %}">Continuar comprando.</a></p>
+    <p><a href="{% url 'shop:payment_checkout' %}">Finalizar pedido.</a></p>
   {% else %}
     <p>Tu carrito esta vacio.</p>
+    <p><a href="{% url 'shop:product_list' %}">Visita la tienda.</a></p>
   {% endif %}
-
-  <p><a href="{% url 'shop:product_list' %}">Continuar comprando.</a></p>
-  <p><a href="{% url 'shop:payment_checkout' %}">Finalizar pedido.</a></p>
 
 {% endblock %}

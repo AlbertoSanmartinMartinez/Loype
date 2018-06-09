@@ -15,6 +15,7 @@ from shop.shoppingcart import ShoppingCart
 def product_list(request, shop_category_slug=None):
     category = None
     products = shop_models.Product.objects.filter(stock__gte=1)
+    shop_filter_form = None
 
     if shop_category_slug:
         category = get_object_or_404(shop_models.ShopCategory, slug=shop_category_slug)
@@ -26,7 +27,7 @@ def product_list(request, shop_category_slug=None):
             category=shop_filter_form.cleaned_data['category'],
             name__contains=shop_filter_form.cleaned_data['name'])
     else:
-        shop_filter_form = getShopFilter(request)
+        shop_filter_form = shop_forms.ProductFilter()
 
     return render(request, 'product_list.html', {
         'category': category,
@@ -72,6 +73,10 @@ def cartAdd(request, product_id):
     cart = ShoppingCart(request)
     product = get_object_or_404(shop_models.Product, id=product_id)
     cart.add(product)
+    form = shop_forms.ShoppingCartForm(request.POST)
+    if form.is_valid():
+        data = form.cleaned_data['quantity']
+        cart.update(product, data)
     """
     form = shop_forms.ShoppingCartForm(request.POST)
     if form.is_valid():
@@ -102,13 +107,15 @@ def cartUpdate(request, product_id):
     cart = ShoppingCart(request)
     product = get_object_or_404(shop_models.Product, id=product_id)
     form = shop_forms.ShoppingCartForm(request.POST)
-    print(str(form['quantity']))
-    cart.update(product, form['quantity'])
+    if form.is_valid():
+        data = form.cleaned_data['quantity']
+        cart.update(product, data)
 
     return redirect('shop:shoppingcart_detail')
 
 
 # Payment Views
+"""
 def payment_details(request, payment_id):
     payment = get_object_or_404(get_payment_model(), id=payment_id)
     try:
@@ -120,25 +127,28 @@ def payment_details(request, payment_id):
         'form': form,
         'payment': payment
     })
-
+"""
 
 def payment_checkout(request):
+    print("payment_checkout view")
+    cart = ShoppingCart(request)
+
     stripe_key = settings.STRIPE_TEST_API_KEY
     payment_checkout_form = shop_forms.PaymentCheckout()
+    cart.clear()
 
-    """
-    token = stripe.
-    charge = stripe.Charge.create(
-        amount=999,
-        currency='usd',
-        description='Example charge',
-        source=token,
-    )
-    """
     return render(request, 'payment_checkout.html', {
         "payment_checkout_form": payment_checkout_form,
         "stripe_key": stripe_key,
     })
+
+
+def payment_done(request):
+    pass
+
+
+def payment_canceled(request):
+    pass
 
 
 # Common Methods

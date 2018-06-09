@@ -22,6 +22,9 @@ class BannkInformation(models.Model):
 # Shop Models
 @autoconnect
 class ShopCategory(models.Model):
+    """
+    Model for categories from a shop
+    """
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     description = models.CharField(max_length=500, blank=True)
@@ -66,17 +69,32 @@ class Product(models.Model):
 
 
 class ShopingChart(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
-    # crear el carrito cuando se añade un producto
+    # name = models.CharField(max_length=100, db_index=True)
+    created_date = models.DateTimeField(auto_now=True)
+    code = models.CharField(max_length=300, default="")
+    products = models.CharField(max_length=300, default="")
     # controlar el estado del carrito
     # convertir en pedido cuando se finaliza el pedido
+    # saber de quien es el carrito
 
     def __unicode__(self):
-        return self.name
+        return self.code
+
+
+# https://www.wordstream.com/blog/ws/2016/03/17/shopping-cart-abandonment
+class Order(models.Model):
+    code = models.CharField(max_length=300, default="")
+    created_date = models.DateTimeField(auto_now=True)
+    OrderStatus = ((1, 'Pendiente de pago'), (2, 'Cancelado'), (3, 'Pagado'), (4, 'En preparación'), (5, 'Enviado'), (6, 'Entregado'))
+    status = models.IntegerField(choices=OrderStatus, default=1)
+
+    def __unicode__(self):
+        return self.code
 
 
 class Provider(models.Model):
     name = models.CharField(max_length=100, db_index=True, default='proveedor')
+    created_date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.name
@@ -84,6 +102,7 @@ class Provider(models.Model):
 
 class ShopTag(models.Model):
     name = models.CharField(max_length=100, db_index=True, default='etiqueta')
+    created_date = models.DateTimeField(auto_now=True)
     # slug
 
     def __unicode__(self):

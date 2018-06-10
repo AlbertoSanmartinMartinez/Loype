@@ -1,18 +1,22 @@
 
-<a href="{% url 'home' %}">LOYPE</a>
-  <ul>
-    <li>
-      <a href="{% url 'home' %}">Inicio</a>
-    </li>
-    <li>
-      <a href="{% url 'know_us' %}">Conocenos</a>
-    </li>
-    <li>
-      <a href="{% url 'shop:product_list' %}">Tienda</a>
-    </li>
-    <li>
-      <a href="{% url 'shop:shoppingcart_detail' %}">Carrito</a>
-    </li>
-    <li>
-      <a href="{% url 'contact' %}">Contacto</a>
-    </li>
+
+<nav class="colorlib-nav" role="navigation">
+  <div class="top-menu">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-2">
+          <div id="colorlib-logo"><a href="{% url 'home' %}">LOYPE</a></div>
+        </div>
+        <div class="col-xs-10 text-right menu-1">
+          <ul>
+					  <li><a href="{% url 'home' %}">Inicio</a></li>
+						<li><a href="{% url 'know_us' %}">Conocenos</a></li>
+						<li><a href="{% url 'shop:product_list' %}">Tienda</a></li>
+						<li><a href="{% url 'contact' %}">Contacto</a></li>
+						<li><a href="{% url 'shop:shoppingcart_detail' %}"><i class="icon-shopping-cart"></i>Carrito</a></li>
+					</ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

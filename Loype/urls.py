@@ -6,6 +6,9 @@ from shop import views as shop_views
 from shop import urls
 import views as general_views
 from django.contrib.auth import views as auth_views
+from Loype import settings
+from django.conf import settings
+from django.conf.urls.static import static
 
 admin.site.site_header = 'LOYPE'
 admin.autodiscover()
@@ -26,9 +29,9 @@ urlpatterns = [
     url(r'^informacion_legal/', general_views.legal_information, name='legal_information'),
 
     # Register Urls
-    url(r'^acceso/login$', general_views.login, name='login'),
+    url(r'^acceso/login$', general_views.custom_login, name='login'),
     url(r'^acceso/registro$', general_views.register, name='register'),
-    url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
+    url(r'^acceso/logout/$', general_views.custom_logout, name='logout'),
 
     url(r'^mi_cuenta/password_change/$', auth_views.PasswordChangeView.as_view(), name='password_change'),
     url(r'^mi_cuenta/password_change_done/$', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
@@ -41,3 +44,7 @@ urlpatterns = [
     url(r'^perfil/', general_views.contact, name='profile'),
     url(r'^tienda/$', shop_views.product_list, name='ships'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

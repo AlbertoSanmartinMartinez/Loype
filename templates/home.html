@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% load staticfiles %}
+{% load static %}
 
 {% block home %}
 
   <form method="POST" action="{% url 'shop:shop_search' %}">
     {% csrf_token %}
     {{ search_form.word }}
-    <button type="submit">Buscar</button>
+    <input type="submit" value="Buscar"/>
   </form>
 
 {% endblock %}

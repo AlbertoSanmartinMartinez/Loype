@@ -8,7 +8,7 @@ from shop import models as shop_models
 # General Forms
 class SearchForm(forms.Form):
     """Formulario de busqueda"""
-    word = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder':'Busca lo que quieras'}))
+    word = forms.CharField(label='', widget=forms.TextInput(attrs={'id': 'search_word', 'placeholder':'Busca lo que quieras'}))
 
 
 class PaymentCheckout(forms.Form):

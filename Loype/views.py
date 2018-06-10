@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from Loype import forms
 from shop import forms as shop_forms
+from django.contrib.auth import authenticate, login, logout
 
 # General Views
 def home(request):
@@ -17,11 +18,11 @@ def home(request):
 def know_us(request):
 
     return render(request, 'know_us.html', {
-        "search_form": getSearchForm,
+        #"search_form": getSearchForm,
     })
 
 
-def login(request):
+def custom_login(request):
     if request.method == 'POST':
         form = forms.CustomAuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -39,6 +40,11 @@ def login(request):
         "form": form,
         #'subscribe_form': getSubscribeForm(),
     })
+
+
+def custom_logout(request):
+    logout(request)
+    return redirect('home')
 
 
 def register(request):

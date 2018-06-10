@@ -3,16 +3,18 @@
 
 {% block shop %}
 
-  <p>Sección de la tienda</p>
-  <hr>
+  <div class="container">
+    <p>Sección de la tienda</p>
+    <hr>
 
-  {% block product_list %}
-  {% endblock %}
+    {% block product_list %}
+    {% endblock %}
 
-  {% block product_detail %}
-  {% endblock %}
+    {% block product_detail %}
+    {% endblock %}
 
-  {% block shopingchart %}
-  {% endblock %}
+    {% block shopingchart %}
+    {% endblock %}
+  </div>
 
 {% endblock %}

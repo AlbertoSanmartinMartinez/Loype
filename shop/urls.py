@@ -30,7 +30,3 @@ urlpatterns = [
     url(r'^carrito/borrar/(?P<product_id>\d+)/$', shop_views.cartRemove, name='shoppingcart_remove'),
     url(r'^carrito/actualizar/(?P<product_id>\d+)/$', shop_views.cartUpdate, name='shoppingcart_update'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

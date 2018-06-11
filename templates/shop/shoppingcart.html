@@ -3,25 +3,159 @@
 
 {% block shopingchart %}
 
-  {% if shoppingcart|length > 0 %}
-    {% for item in shoppingcart %}
-      <p><a href="{% url 'shop:product_detail' product_slug=item.product.slug %}">{{ item.product.name}}</a></p>
-      {{ item.shoppingcart_form.price }}
-      <form action="{% url 'shop:shoppingcart_update' product_id=item.product.id %}" method="POST">
-        {% csrf_token %}
-        {{ item.shoppingcart_form.as_p }}
-        <input type="submit" value="Actualizar.">
-      </form>
-      <p><a href="{% url 'shop:shoppingcart_remove' product_id=item.product.id %}">Borrar</a></p>
-      <hr>
-    {% endfor %}
-    {{ shoppingcart.getTotalPrice }}
+<!-- Shppingcart breadcrumbs -->
+<aside id="colorlib-hero" class="breadcrumbs">
+    <div class="flexslider">
+      <ul class="slides">
+        <li style="background-image: url({% static 'img/neumatico_9.jpg' %});">
+          <div class="overlay"></div>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12 slider-text">
+                <div class="slider-text-inner text-center">
+                  <h1>Carrito de la Compra</h1>
+                  <h2 class="bread"><span><a href="{% url 'home' %}">Inicio</a></span> <span><a href="{% url 'shop:product_list' %}">Tienda</a></span> <span>Carrito</span></h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        </ul>
+      </div>
+  </aside>
 
-    <p><a href="{% url 'shop:product_list' %}">Continuar comprando.</a></p>
-    <p><a href="{% url 'shop:payment_checkout' %}">Finalizar pedido.</a></p>
-  {% else %}
+  <div class="colorlib-shop">
+    <div class="container">
+      <!-- Order phase status -->
+      <div class="row row-pb-md">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="process-wrap">
+            <div class="process text-center active">
+              <p><span>01</span></p>
+              <h3>Carrito de la Compra</h3>
+            </div>
+            <div class="process text-center">
+              <p><span>02</span></p>
+              <h3>Finalizar Pedido</h3>
+            </div>
+            <div class="process text-center">
+              <p><span>03</span></p>
+              <h3>Pedido Completado</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shppingcart ptoduct list titles -->
+      <div class="row row-pb-md">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="product-name">
+            <div class="one-forth text-center">
+              <span>Detalles de producto</span>
+            </div>
+            <div class="one-eight text-center">
+              <span>Precio</span>
+            </div>
+            <div class="one-eight text-center">
+              <span>Cantidad</span>
+            </div>
+            <div class="one-eight text-center">
+              <span>Total</span>
+            </div>
+            <div class="one-eight text-center">
+              <span>Actualizar</span>
+            </div>
+          </div>
+
+          <!-- Shppingcart ptoduct detail list -->
+          {% if shoppingcart|length > 0 %}
+            {% for item in shoppingcart %}
+              <div class="product-cart">
+                <div class="one-forth">
+                  <div class="product-img" style="background-image: url(images/item-6.jpg);">
+                  </div>
+                  <div class="display-tc">
+                    <h3><a href="{% url 'shop:product_detail' product_slug=item.product.slug %}">{{ item.product.name}}</a</h3>
+                  </div>
+                </div>
+                <div class="one-eight text-center">
+                  <div class="display-tc">
+                    <span class="price">{{ item.product.price}} €</span>
+                  </div>
+                </div>
+                <form action="{% url 'shop:shoppingcart_update' product_id=item.product.id %}" method="POST">
+                  {% csrf_token %}
+                  <div class="one-eight text-center">
+                    <div class="display-tc">
+                      <!--<input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100">-->
+                      {{ item.shoppingcart_form.quantity }}
+                    </div>
+                  </div>
+                  <div class="one-eight text-center">
+                    <div class="display-tc">
+                      <span class="price">$120.00</span>
+                    </div>
+                  </div>
+                  <div class="one-eight text-center">
+                    <div class="display-tc">
+                      <input type="submit" value="Actualizar">
+                    </div>
+                  </div>
+                </form>
+              </div>
+          {% endfor %}
+        </div>
+      </div>
+
+
+<!-- ############################################################ -->
+
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="total-wrap">
+            <div class="row">
+              <!-- Descuentos y cupones -->
+              <div class="col-md-8">
+                <!--<form action="#">-->
+                  <div class="row form-group">
+                    <div class="col-md-3">
+                      <!--<input type="text" name="quantity" class="form-control input-number" placeholder="Your Coupon Number...">-->
+                      <a class="btn btn-secundary" href="{% url 'shop:product_list' %}">Seguir Comprando      </a>
+                    </div>
+                    <div class="col-md-3">
+                      <!--<input href="{% url 'shop:payment_checkout' %}" type="submit" value="Finalizar Pedido" class="btn btn-primary">-->
+                      <!--<p><a href="{% url 'shop:product_list' %}">Continuar comprando.</a></p>-->
+                      <a class="btn btn-primary" href="{% url 'shop:payment_checkout' %}">Finalizar pedido</a>
+                    </div>
+                  </div>
+                <!--</form>-->
+              </div>
+              <!-- Resumen Carrito -->
+              <div class="col-md-3 col-md-push-1 text-center">
+                <div class="total">
+                  <div class="sub">
+                    <p><span>Subtotal:</span> <span>$200.00</span></p>
+                    <p><span>Delivery:</span> <span>$0.00</span></p>
+                    <p><span>Discount:</span> <span>$45.00</span></p>
+                  </div>
+                  <div class="grand-total">
+                    <p><span><strong>Total:</strong></span> <span>{{ shoppingcart.getTotalPrice }} €</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% else %}
+  <div class="col-md-3">
     <p>Tu carrito esta vacio.</p>
-    <p><a href="{% url 'shop:product_list' %}">Visita la tienda.</a></p>
-  {% endif %}
+    <a class="btn btn-primary" href="{% url 'shop:product_list' %}">Visitar la Tienda</a>
+  </div>
+{% endif %}
+
+    </div>
+  </div>
 
 {% endblock %}

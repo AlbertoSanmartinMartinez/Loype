@@ -37,10 +37,10 @@ class ProductFilter(forms.ModelForm):
     class Meta:
         model = shop_models.Product
         #include = ['category', 'name', 'price']
-        exclude = ['description', 'slug', 'price']
+        exclude = ['description', 'slug', 'price', 'album']
 
 
-PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 26)]
+PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(0, 26)]
 
 
 class ShoppingCartForm(forms.Form):

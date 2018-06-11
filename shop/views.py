@@ -135,7 +135,7 @@ def payment_checkout(request):
 
     stripe_key = settings.STRIPE_TEST_API_KEY
     payment_checkout_form = shop_forms.PaymentCheckout()
-    cart.clear()
+    #cart.clear()
 
     return render(request, 'payment_checkout.html', {
         "payment_checkout_form": payment_checkout_form,

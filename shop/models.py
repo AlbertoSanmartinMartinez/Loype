@@ -19,6 +19,41 @@ class BannkInformation(models.Model):
     pass
 
 
+# Gallery models
+@autoconnect
+class Album(models.Model):
+    name = models.CharField(max_length=50, default='album')
+    slug = models.CharField(max_length=100, blank=True)
+    # image_header = models.IntegerField(Image)
+
+    def __unicode__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        """metodo de la clase Album para calcular el slug"""
+        self.slug = self.name.replace(" ", "_").lower()
+        super(Album, self).save(*args, **kwargs)
+
+
+class Image(models.Model):
+    """
+    Modelo para las fotos
+    https://stackoverflow.com/questions/765396/exif-manipulation-library-for-python
+    """
+    album = models.ForeignKey(Album, default=1)
+    header_image = models.BooleanField(default=False)
+    image = models.ImageField(upload_to="photos", default='/image.jpg', blank=False)
+    # image = ProcessedImageField(upload_to='albums', processors=[ResizeToFit(300)], format='JPEG', options={'quality': 90})
+    description = models.CharField(max_length=20, blank=True)
+    alt = models.CharField(max_length=20, blank=True) # texto alternativo alt=""
+    # tamaño (jpeg)
+    # datos exif
+    # sitemap de imagenes
+
+    def __unicode__(self):
+        return unicode(self.image)
+
+
 # Shop Models
 @autoconnect
 class ShopCategory(models.Model):
@@ -52,7 +87,7 @@ class Product(models.Model):
     created_date = models.DateTimeField(auto_now=True)
     stock = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    # images
+    album = models.ForeignKey(Album, default=1, blank=True, null=True)
 
     class Meta:
         verbose_name = 'product'
@@ -61,8 +96,18 @@ class Product(models.Model):
     def __unicode__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        """metodo de la clase post para calcular el slug de un producto y crear un album asociado a ese producto"""
+        self.slug = self.name.replace(" ", "_").lower()
+        if not self.pk:
+            album = Album.objects.create(name='album '+self.name)
+            self.album = album
+        super(Product, self).save(*args, **kwargs)
+
+    """
     def pre_save(self):
         self.slug = self.name.replace(' ', '_').lower()
+    """
 
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.slug])
@@ -107,11 +152,6 @@ class ShopTag(models.Model):
 
     def __unicode__(self):
         return self.name
-
-
-# Gallery Models
-class Image(models.Model):
-    pass
 
 
 # SEO Models

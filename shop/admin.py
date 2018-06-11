@@ -46,4 +46,21 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ['code', 'created_date', 'status']
 
 admin.site.register(models.Order, OrderAdmin)
+
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'image', 'description', 'alt', 'album')
+
+class ImageInLine(admin.TabularInline):
+    model = models.Image
+    list_display = ('id', 'image', 'description', 'alt')
+    extra = 1
+
+admin.site.register(models.Image, ImageAdmin)
+
+class AlbumAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+    inlines = [ImageInLine,]
+
+admin.site.register(models.Album, AlbumAdmin)
+
 #
